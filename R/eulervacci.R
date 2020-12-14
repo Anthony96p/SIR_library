@@ -1,0 +1,36 @@
+#############Fonction_3#############
+
+#S->I->R
+#S---->R
+
+eulervacci<-function(Sbis,Ibis,Rbis,a,b,deltaT,taille,tv) # fonction calculant à  chaque tour l’évolution des variables S, I et R
+{
+  J<-0  #Non modulable       #Jour 0
+
+  if (deltaT==0) {
+    deltaT <- 30/(Sbis + Ibis +Rbis) #Si deltaT = 0, choix du pas optimal automatique
+  }
+  resul<-data.frame(Sbis, Ibis, Rbis, J)
+  colnames(resul) <- c("S","I","R","J")
+
+  repeat{
+    J <- J+deltaT #Compteur de jours
+    #création de variables memoire
+    Suc <- Sbis
+    Reco <- Rbis
+    Infect <- Ibis
+
+    pV<-(rbinom(1,round(Suc),tv))    #loi binomial generant le taux à retirer de S
+
+    Sbis <- Suc + (-a * Suc * Infect)*deltaT - (pV/(7/deltaT)) #taux retiré de S à chaque semaines
+    Rbis <- Reco + (b * Infect)*deltaT + (pV/(7/deltaT)) #taux affecté à R à chaque semaines
+    Ibis <- (Suc+Infect+Reco) - Sbis - Rbis
+    SIR <- data.frame(Sbis,Ibis,Rbis,J)
+    colnames(SIR) <- c("S","I","R","J");
+    resul<-rbind(resul,SIR) #concaténation des nouvelles lignes avec la première ligne du tableau
+
+    if (J>=taille) break #arrêt de la boucle si nombre de jour atteint
+  }
+  return(resul) #retourne le tableau final
+
+}

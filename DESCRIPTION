@@ -1,0 +1,10 @@
+Package: SIReulerprojetR
+Type: Package
+Title: Modèle SIR + vaccination + mortalité
+Version: 0.1.0
+Author: Anthony Pragassam et Aimen Cherif 
+Maintainer: The package maintainer <anthony.pragassam@gmail.com>
+Description: Ce package simule une épidémie selon le modèle SIR calculé grace à la méthode d'Euler et détermine le jour du pic de l'épidémie.    Il peut aussi faire la simulation avec taux de vaccination prit par la population saine.    Il peut aussi faire la simulation d'une maladie ayant un taux de mortalité significatif impliquant une baisse de la population.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
