@@ -3,6 +3,23 @@
 #S->I->R
 #S---->R
 
+
+#' eulervacci
+#'
+#' @param Sbis #Personnes saines
+#' @param Ibis #Personnes infectées
+#' @param Rbis #Personnes retirées
+#' @param a #Taux de transmission
+#' @param b #Taux de guérison
+#' @param deltaT #Pas #Si DeltaT = 0, choix du pas optimal automatique
+#' @param taille #Nombre de jours choisi
+#' @param tv # Taux de vaccination par semaines
+#'
+#' @return un dataframe
+#' @export
+#'
+#' @examples
+#' eulervacci(500 ,10 ,0 ,0.001 ,0.03,0.1,100,0.04)
 eulervacci<-function(Sbis,Ibis,Rbis,a,b,deltaT,taille,tv) # fonction calculant à  chaque tour l’évolution des variables S, I et R
 {
   J<-0  #Non modulable       #Jour 0

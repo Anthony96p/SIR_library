@@ -1,8 +1,5 @@
-#############Fonction_4#############
+#############Fonction_5#############
 
-#SIDR
-#S->I->R
-#   I->D
 
 #' eulermorta
 #'
@@ -14,13 +11,14 @@
 #' @param deltaT #Pas #Si DeltaT = 0, choix du pas optimal automatique
 #' @param taille #Nombre de jours choisi
 #' @param mu # proba de mortalité par mois
+#' @param tv # Taux de vaccination par semaines
 #'
 #' @return un dataframe
 #' @export
 #'
 #' @examples
-#' eulermorta(500 ,10 ,0 ,0.001 ,0.03,0.1,100,0.2)
-eulermorta<-function(Sbis,Ibis,Rbis,a,b,deltaT,taille,mu) # fonction calculant à chaque tour l’évolution des variables S, I et R
+#' eulermorta(500 ,10 ,0 ,0.001 ,0.03,0.1,100,0.2,0.04)
+eulermortavacci<-function(Sbis,Ibis,Rbis,a,b,deltaT,taille,mu,tv) # fonction calculant à chaque tour l’évolution des variables S, I et R
 {
   J<-0    #Non modulable       #Jour 0
   total <- (Sbis + Ibis + Rbis)
@@ -53,8 +51,10 @@ eulermorta<-function(Sbis,Ibis,Rbis,a,b,deltaT,taille,mu) # fonction calculant �
 
     Tm<-(rbinom(1,round(Infect),mubis)) #loi binomiale générant un taux à retirer de I
 
-    Sbis <- Suc + (-a * Suc * Infect)*deltaT
-    Rbis <- Reco + (b * Infect)*deltaT
+    pV<-(rbinom(1,round(Suc),tv))    #loi binomial generant le taux à retirer de S pour R
+
+    Sbis <- Suc + (-a * Suc * Infect)*deltaT - (pV/(7/deltaT)) #taux retiré de S à chaque semaines
+    Rbis <- Reco + (b * Infect)*deltaT + (pV/(7/deltaT)) #taux affecté à R à chaque semaines
     Ibis <- (Suc+Infect+Reco) - Sbis - Rbis-((Tm/(30/deltaT))) #On retire de I un taux par mois
 
     SIR <- data.frame(Sbis,Ibis,Rbis,total,J)
